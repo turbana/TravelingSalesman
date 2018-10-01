@@ -28,8 +28,13 @@ namespace TravelingSalesman {
         static void Solve(TSPImage image) {
             TSPCity[] cities = TSPTour.RandomCities(CITIES_COUNT, IMAGE_WIDTH, IMAGE_HEIGHT);
             TSPTour initial = TSPTour.RandomTour(cities);
-            TSPStats results = SimulatedAnnealing.Solve(ANNEALING_PARAMETERS, initial, image);
-            image.DrawTour(results);
+            TSPStats results;
+            try {
+                results = SimulatedAnnealing.Solve(ANNEALING_PARAMETERS, initial, image);
+                image.DrawTour(results);
+            } catch (ObjectDisposedException e) {
+                // ignore window closed
+            }
         }
     }
 }
