@@ -6,9 +6,15 @@ using System.Windows.Forms;
 
 namespace TravelingSalesman {
     static class Program {
-        private static int CITIES_COUNT = 15;
-        private static int IMAGE_WIDTH = 512;
-        private static int IMAGE_HEIGHT = 512;
+        private const int CITIES_COUNT = 15;
+        private const int IMAGE_WIDTH = 512;
+        private const int IMAGE_HEIGHT = 512;
+        private static AnnealingParameters ANNEALING_PARAMETERS = new AnnealingParameters() {
+            Heat = 1.0,
+            Alpha = 0.9,
+            MinHeat = 0.01,
+            Settle = 100,
+        };
 
         /// <summary>
         /// The main entry point for the application.
@@ -17,17 +23,16 @@ namespace TravelingSalesman {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TSPTour tour = TSPTour.RandomTour(TSPTour.RandomCities(CITIES_COUNT, IMAGE_WIDTH, IMAGE_HEIGHT));
-            foreach(TSPCity city in tour.GetCities()) {
-                Console.WriteLine("({0}, {1})", city.x, city.y);
-            }
-            foreach(int city in tour.GetTour()) {
-                Console.Write("{0} ", city);
+            TSPCity[] cities = TSPTour.RandomCities(CITIES_COUNT, IMAGE_WIDTH, IMAGE_HEIGHT);
+            TSPTour initial = TSPTour.RandomTour(cities);
+            TSPTour best = (TSPTour)SimulatedAnnealing.Solve(ANNEALING_PARAMETERS, initial);
+            Console.WriteLine("---");
+            for(int i=0; i<CITIES_COUNT; i++) {
+                Console.Write("{0} ", best.GetTour()[i]);
             }
             Console.WriteLine();
-            Console.ReadLine();
             TSPImage image = new TSPImage(IMAGE_WIDTH, IMAGE_HEIGHT);
-            image.DrawTour(tour);
+            image.DrawTour(best);
             image.Display();
         }
     }

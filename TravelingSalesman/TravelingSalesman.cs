@@ -19,10 +19,12 @@ namespace TravelingSalesman {
     class TSPTour : IAnnealingSolution {
         private TSPCity[] cities;
         private int[] tour;
+        private int score;
 
         public TSPTour(TSPCity[] Cities, int[] Tour) {
             this.cities = Cities;
             this.tour = Tour;
+            this.score = -1;
         }
 
         public TSPCity[] GetCities() {
@@ -34,6 +36,9 @@ namespace TravelingSalesman {
         }
 
         public int Score() {
+            if(this.score >= 0) {
+                return this.score;
+            }
             double score = 0.0;
             TSPCity from, to;
             for(int i=0; i<this.tour.Length-1; i++) {
@@ -41,11 +46,22 @@ namespace TravelingSalesman {
                 to = this.cities[this.tour[i + 1]];
                 score += from.Distance(to);
             }
-            return (int)score;
+            this.score = (int)score;
+            return this.score;
         }
 
         public IAnnealingSolution Neighbor() {
-            return null;
+            Random rand = new Random();
+            TSPTour other = new TSPTour(this.cities, this.tour);
+            Array.Copy(this.tour, other.tour, this.tour.Length);
+            int x, y;
+            do {
+                x = rand.Next(this.tour.Length);
+                y = rand.Next(this.tour.Length);
+            } while (x == y);
+            other.tour[x] = this.tour[y];
+            other.tour[y] = this.tour[x];
+            return other;
         }
 
         public static TSPCity[] RandomCities(int Count, int MaxX, int MaxY) {
