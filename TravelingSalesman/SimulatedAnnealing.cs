@@ -15,6 +15,8 @@ namespace TravelingSalesman {
     public struct TSPStats {
         public IAnnealingSolution solution;
         public int iterations;
+        public bool working;
+        public double heat;
     }
 
     public interface IAnnealingSolution {
@@ -23,7 +25,7 @@ namespace TravelingSalesman {
     }
 
     class SimulatedAnnealing {
-        public static TSPStats Solve(AnnealingParameters parms, IAnnealingSolution initial) {
+        public static TSPStats Solve(AnnealingParameters parms, IAnnealingSolution initial, TSPImage image) {
             IAnnealingSolution best, state, neighbor;
             best = initial;
             state = initial;
@@ -33,8 +35,14 @@ namespace TravelingSalesman {
             while(heat > parms.MinHeat) {
                 for(int i=0; i<parms.Settle; i++) {
                     iterations++;
-                    if((iterations % 1000) == 0) {
+                    if((iterations % 10000) == 0) {
                         Console.WriteLine("{0,4}: {1}", best.Score(), heat);
+                        image.DrawTour(new TSPStats {
+                            solution = best,
+                            iterations = iterations,
+                            working = true,
+                            heat = heat,
+                        });
                     }
                     neighbor = state.Neighbor();
                     if(neighbor.Score() < state.Score()) {
@@ -52,7 +60,9 @@ namespace TravelingSalesman {
 
             return new TSPStats {
                 solution = best,
-                iterations = iterations
+                iterations = iterations,
+                working = false,
+                heat = heat,
             };
         }
     }
