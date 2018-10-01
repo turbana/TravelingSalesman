@@ -11,9 +11,9 @@ namespace TravelingSalesman {
         private const int IMAGE_HEIGHT = 512;
         private static AnnealingParameters ANNEALING_PARAMETERS = new AnnealingParameters() {
             Heat = 1.0,
-            Alpha = 0.9,
+            Alpha = 0.99,
             MinHeat = 0.01,
-            Settle = 100,
+            Settle = 1000,
         };
 
         /// <summary>
