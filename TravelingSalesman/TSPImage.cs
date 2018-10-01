@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace TravelingSalesman {
     class TSPImage {
         private static Brush CITY_BRUSH = Brushes.Blue;
         private static Brush PATH_BRUSH = Brushes.Red;
-        private static int CITY_RADIUS = 5;
+        private static Brush TEXT_BRUSH = Brushes.Black;
+        private static Font TEXT_FONT = new Font("Tahoma", 8);
+        private static int CITY_RADIUS = 3;
 
         private Bitmap bitmap;
         private Graphics graphics;
@@ -18,6 +21,10 @@ namespace TravelingSalesman {
         public TSPImage(int Width, int Height) {
             this.bitmap = new Bitmap(Width, Height);
             this.graphics = Graphics.FromImage(this.bitmap);
+            this.graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            this.graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            this.graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            this.graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
         }
 
         public void Display() {
@@ -27,7 +34,6 @@ namespace TravelingSalesman {
             pb.Size = new Size(new Point(this.bitmap.Width, this.bitmap.Height));
             pb.Image = this.bitmap;
             form.Controls.Add(pb);
-            
             Application.Run(form);
         }
 
@@ -42,6 +48,13 @@ namespace TravelingSalesman {
                 TSPCity to = cities[tour[i + 1]];
                 this.DrawPath(from, to);
             }
+            this.DrawStats(Tour);
+        }
+
+        private void DrawStats(TSPTour Tour) {
+            string score = String.Format("Score: {0}", Tour.Score());
+            RectangleF pos = new RectangleF(2, 2, this.bitmap.Width - 2, this.bitmap.Height - 2);
+            this.graphics.DrawString(score, TEXT_FONT, TEXT_BRUSH, pos);
         }
 
         private void DrawCity(TSPCity City) {

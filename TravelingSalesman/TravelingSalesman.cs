@@ -8,9 +8,15 @@ namespace TravelingSalesman {
     struct TSPCity {
         public int x;
         public int y;
+
+        public double Distance(TSPCity other) {
+            return Math.Sqrt(
+                Math.Pow(this.x - other.x, 2) +
+                Math.Pow(this.y - other.y, 2));
+        }
     }
 
-    class TSPTour {
+    class TSPTour : IAnnealingSolution {
         private TSPCity[] cities;
         private int[] tour;
 
@@ -25,6 +31,21 @@ namespace TravelingSalesman {
 
         public int[] GetTour() {
             return this.tour;
+        }
+
+        public int Score() {
+            double score = 0.0;
+            TSPCity from, to;
+            for(int i=0; i<this.tour.Length-1; i++) {
+                from = this.cities[this.tour[i]];
+                to = this.cities[this.tour[i + 1]];
+                score += from.Distance(to);
+            }
+            return (int)score;
+        }
+
+        public IAnnealingSolution Neighbor() {
+            return null;
         }
 
         public static TSPCity[] RandomCities(int Count, int MaxX, int MaxY) {

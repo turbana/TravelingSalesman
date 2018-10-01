@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulatedAnnealing.cs" />
     <Compile Include="TravelingSalesman.cs" />
     <Compile Include="TSPImage.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
