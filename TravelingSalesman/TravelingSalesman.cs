@@ -23,7 +23,8 @@ namespace TravelingSalesman {
 
         public TSPTour(TSPCity[] Cities, int[] Tour) {
             this.cities = Cities;
-            this.tour = Tour;
+            this.tour = new int[Tour.Length];
+            Array.Copy(Tour, this.tour, this.tour.Length);
             this.score = -1;
         }
 
@@ -53,7 +54,7 @@ namespace TravelingSalesman {
         public IAnnealingSolution Neighbor() {
             Random rand = new Random();
             TSPTour other = new TSPTour(this.cities, this.tour);
-            Array.Copy(this.tour, other.tour, this.tour.Length);
+            
             int x, y;
             do {
                 x = rand.Next(this.tour.Length);
