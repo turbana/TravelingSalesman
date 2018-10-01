@@ -15,6 +15,8 @@ namespace TravelingSalesman {
         /// </summary>
         [STAThread]
         static void Main() {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             TSPTour tour = TSPTour.RandomTour(TSPTour.RandomCities(CITIES_COUNT, IMAGE_WIDTH, IMAGE_HEIGHT));
             foreach(TSPCity city in tour.GetCities()) {
                 Console.WriteLine("({0}, {1})", city.x, city.y);
@@ -24,9 +26,9 @@ namespace TravelingSalesman {
             }
             Console.WriteLine();
             Console.ReadLine();
-            /*Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());*/
+            TSPImage image = new TSPImage(IMAGE_WIDTH, IMAGE_HEIGHT);
+            image.DrawTour(tour);
+            image.Display();
         }
     }
 }
