@@ -69,11 +69,13 @@ namespace TravelingSalesman {
                 this.DrawStats(g, stats);
                 g.Flush();
                 g.Dispose();
-                // refresh display
-                this.form.Invoke(new Action(() => {
-                    this.pb.Image = this.bitmap;
-                }));
             }
+            // refresh display
+            this.form.Invoke(new Action(() => {
+                lock (Lock) {
+                    this.pb.Image = this.bitmap;
+                }
+            }));
         }
 
         private void DrawStats(Graphics g, TSPStats stats) {
