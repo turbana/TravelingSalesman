@@ -25,14 +25,9 @@ namespace TravelingSalesman {
             Application.SetCompatibleTextRenderingDefault(false);
             TSPCity[] cities = TSPTour.RandomCities(CITIES_COUNT, IMAGE_WIDTH, IMAGE_HEIGHT);
             TSPTour initial = TSPTour.RandomTour(cities);
-            TSPTour best = (TSPTour)SimulatedAnnealing.Solve(ANNEALING_PARAMETERS, initial);
-            Console.WriteLine("---");
-            for(int i=0; i<CITIES_COUNT; i++) {
-                Console.Write("{0} ", best.GetTour()[i]);
-            }
-            Console.WriteLine();
+            TSPStats results = SimulatedAnnealing.Solve(ANNEALING_PARAMETERS, initial);
             TSPImage image = new TSPImage(IMAGE_WIDTH, IMAGE_HEIGHT);
-            image.DrawTour(best);
+            image.DrawTour(results);
             image.Display();
         }
     }

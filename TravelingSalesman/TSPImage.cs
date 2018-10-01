@@ -34,10 +34,12 @@ namespace TravelingSalesman {
             pb.Size = new Size(new Point(this.bitmap.Width, this.bitmap.Height));
             pb.Image = this.bitmap;
             form.Controls.Add(pb);
+            form.Text = "Traveling Salesman";
             Application.Run(form);
         }
 
-        public void DrawTour(TSPTour Tour) {
+        public void DrawTour(TSPStats stats) {
+            TSPTour Tour = (TSPTour)stats.solution;
             TSPCity[] cities = Tour.GetCities();
             int[] tour = Tour.GetTour();
             foreach(TSPCity city in cities) {
@@ -48,13 +50,14 @@ namespace TravelingSalesman {
                 TSPCity to = cities[tour[i + 1]];
                 this.DrawPath(from, to);
             }
-            this.DrawStats(Tour);
+            this.DrawStats(stats);
         }
 
-        private void DrawStats(TSPTour Tour) {
-            string score = String.Format("Score: {0}", Tour.Score());
+        private void DrawStats(TSPStats stats) {
+            TSPTour Tour = (TSPTour)stats.solution;
+            string text = String.Format("Score: {0}\nIterations:{1}\nCities: {2}", Tour.Score(), stats.iterations, Tour.GetCities().Length);
             RectangleF pos = new RectangleF(2, 2, this.bitmap.Width - 2, this.bitmap.Height - 2);
-            this.graphics.DrawString(score, TEXT_FONT, TEXT_BRUSH, pos);
+            this.graphics.DrawString(text, TEXT_FONT, TEXT_BRUSH, pos);
         }
 
         private void DrawCity(TSPCity City) {

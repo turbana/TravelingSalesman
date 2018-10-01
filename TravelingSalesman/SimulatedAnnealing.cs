@@ -12,13 +12,18 @@ namespace TravelingSalesman {
         public int Settle;          /* iterations after each cooling */
     };
 
-    interface IAnnealingSolution {
+    public struct TSPStats {
+        public IAnnealingSolution solution;
+        public int iterations;
+    }
+
+    public interface IAnnealingSolution {
         int Score();
         IAnnealingSolution Neighbor();
     }
 
     class SimulatedAnnealing {
-        public static IAnnealingSolution Solve(AnnealingParameters parms, IAnnealingSolution initial) {
+        public static TSPStats Solve(AnnealingParameters parms, IAnnealingSolution initial) {
             IAnnealingSolution best, state, neighbor;
             best = initial;
             state = initial;
@@ -45,8 +50,10 @@ namespace TravelingSalesman {
                 heat *= parms.Alpha;
             }
 
-            Console.WriteLine(iterations);
-            return best;
+            return new TSPStats {
+                solution = best,
+                iterations = iterations
+            };
         }
     }
 }
