@@ -57,13 +57,14 @@ namespace TravelingSalesman {
                 this.Clear(g);
                 TSPTour Tour = (TSPTour)stats.solution;
                 TSPCity[] cities = Tour.GetCities();
+                TSPCity from, to;
                 int[] tour = Tour.GetTour();
                 foreach (TSPCity city in cities) {
                     this.DrawCity(g, city);
                 }
-                for (int i = 0; i < tour.Length - 1; i++) {
-                    TSPCity from = cities[tour[i]];
-                    TSPCity to = cities[tour[i + 1]];
+                for (int i = 0; i < tour.Length; i++) {
+                    from = cities[tour[i]];
+                    to = cities[tour[(i + 1) % tour.Length]];
                     this.DrawPath(g, from, to);
                 }
                 this.DrawStats(g, stats);

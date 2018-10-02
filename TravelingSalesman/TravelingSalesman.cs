@@ -42,9 +42,9 @@ namespace TravelingSalesman {
             }
             double score = 0.0;
             TSPCity from, to;
-            for(int i=0; i<this.tour.Length-1; i++) {
+            for(int i=0; i<this.tour.Length; i++) {
                 from = this.cities[this.tour[i]];
-                to = this.cities[this.tour[i + 1]];
+                to = this.cities[this.tour[(i + 1) % this.tour.Length]];
                 score += from.Distance(to);
             }
             this.score = (int)score;
