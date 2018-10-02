@@ -23,19 +23,19 @@ namespace TravelingSalesman {
 
         public TSPImage(int Width, int Height) {
             this.bitmap = new Bitmap(Width, Height);
-        }
-
-        public void Display() {
             Form form = new Form();
-            form.Size = new Size(new Point(this.bitmap.Width + 8, this.bitmap.Height + 30));
+            form.Size = new Size(new Point(Width + 8, Height + 30));
             PictureBox pb = new PictureBox();
-            pb.Size = new Size(new Point(this.bitmap.Width, this.bitmap.Height));
+            pb.Size = new Size(new Point(Width, Height));
             pb.Image = this.bitmap;
             form.Controls.Add(pb);
             form.Text = "Traveling Salesman";
             this.pb = pb;
             this.form = form;
-            Application.Run(form);
+        }
+
+        public void Display() {
+            Application.Run(this.form);
         }
 
         private Graphics GetGraphics() {
