@@ -59,14 +59,17 @@ namespace TravelingSalesman {
                 TSPCity[] cities = Tour.GetCities();
                 TSPCity from, to;
                 int[] tour = Tour.GetTour();
-                foreach (TSPCity city in cities) {
-                    this.DrawCity(g, city);
-                }
+                // 1. draw tour
                 for (int i = 0; i < tour.Length; i++) {
                     from = cities[tour[i]];
                     to = cities[tour[(i + 1) % tour.Length]];
                     this.DrawPath(g, from, to);
                 }
+                // 2. draw cities
+                foreach (TSPCity city in cities) {
+                    this.DrawCity(g, city);
+                }
+                // 3. draw stats
                 this.DrawStats(g, stats);
                 g.Flush();
                 g.Dispose();
