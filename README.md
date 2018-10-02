@@ -1,8 +1,8 @@
 ﻿# Traveling Salesman
-An implementation of the [Traveling Salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) written in C# using [Simulated Annealing](https://en.wikipedia.org/wiki/Simulated_annealing) as a search method. Results are displayed in a Windows Form while the search is performed in a separate thread. This was written primarily as learning exercise for both C# and Visual Studio.
+An implementation of the [Traveling Salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) written in C# using [Simulated Annealing](https://en.wikipedia.org/wiki/Simulated_annealing) as a search method. Results are displayed in a Windows Form while the search is performed in a separate thread. This was written primarily as an exercise to learn both C# and Visual Studio.
 
 ## Simulated Annealing
-Simulated Annealing is a stochastic hill climbing algorithm. It's similar to a greedy hill climb, in that it will always move to a better solution, but differs in that it sometimes moves to a worse solution. This allows the algorithm to escape from local maxima's where a greedy version would be stuck.
+Simulated Annealing is a stochastic hill climbing algorithm. It's similar to a greedy hill climb, in that it will always move to a better solution, but differs in that it sometimes moves to a worse solution. This allows the algorithm to escape from local maxima's where a greedy version would be stuck. It's based on the [annealing](https://en.wikipedia.org/wiki/Annealing_%28metallurgy%29) process from metallurgy whereby metal is cooled slowly and atoms are given a chance to shuffle into a crystalline structure.
 
 ### Overview
 SA has the benefit of being very simple, it can be generalized as:
@@ -57,3 +57,16 @@ Every so often we might choose to restart the algorithm. This can help us escape
 
 #### Multiple threads
 We can easily start multiple threads to parallelize the search. One option is to have two threads that cool at different rates. One cools quickly, the other slowly and every so often swap between them.
+
+## Traveling Salesman
+### Cities
+The cities are a simple list of `(x, y)` coordinates chosen randomly. The city's id is simply the index into the list.
+
+### Tour
+The tour is a basic list of city id's. The tour moves through each city in the order it appears in the list.
+
+### Neighbor Function
+To choose a neighbor we simply choose two random positions in the tour list and swap them.
+
+### Score Function
+The score function is sum of the distance between each successive city in the tour list.
